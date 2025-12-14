@@ -1,6 +1,5 @@
 # algorithm-neuralnetwork-ml-
-this is my attempt on the idea that i proposed ill make it become affected by qaunt reasercher data like oil and others but rn im tryna keep it basic and limited
-to common strategies
+THIS IS MY ATTEMPT TO utilise a neural network in order to predict stocks
 # Imports
 from statsmodels.regression.rolling import RollingOLS
 import pandas_datareader.data as web
