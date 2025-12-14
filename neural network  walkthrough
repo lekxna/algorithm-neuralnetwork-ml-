@@ -1,0 +1,67 @@
+neural-network-p1
+import numpy as np import random
+
+converting the true database(truedatabase being the one we want comparison wsith
+truedatabase = np.array([0, 1, 1, 1, 0, 0]).reshape(1, 6)
+
+Get user input
+inputdata = [None]*6 for i in range(6): data = int(input("Input your data (1 or 0): ")) inputdata[i] = data
+
+inputdata = np.array(inputdata).reshape(1, 6)
+
+Random weights
+weight = np.random.uniform(-1, 1, (6, 6)) weight2 = np.random.uniform(-1, 1, (6, 6)) weight3 = np.random.uniform(-1, 1, (6, 6))
+
+Activation functions
+def sigmoid(x): return 1 / (1 + np.exp(-x)) #we have to derive the sigmoid so we can find the derivative sigmoided output/layer in respect to the input def sigmoid_derivative(sigmoid_output): return sigmoid_output * (1 - sigmoid_output)
+
+Training loop over 1k epoch
+epoch = 1000 learningrate = 0.1 for i in range(epoch): # epoching it because we gotta multiply everything again a1 = np.dot(inputdata, weight) + 3 z1 = sigmoid(a1) #hiden layer 2 a2 = np.dot(z1, weight2) + 3 z2 = sigmoid(a2)
+
+result = np.dot(z2, weight3) + 3
+output = sigmoid(result)
+
+# Cost
+cost = (truedatabase - output) ** 2
+
+# Backward pass
+derivecost = 2 * (output - truedatabase)
+derivez = sigmoid_derivative(z1)
+derivativeout = sigmoid_derivative(output)
+
+# deriving these three things so you can perform the chain rule the dot product doing them
+d_weight3 = np.dot(z2.T, derivecost * derivativeout)
+d_weight2 = np.dot(z1.T, derivecost * sigmoid_derivative(z2))
+d_weight = np.dot(inputdata.T, derivecost * derivez)
+
+# weights being updated -= is weight = weight - just fancier
+weight3 -= learningrate * d_weight3
+weight2 -= learningrate * d_weight2
+weight -= learningrate * d_weight
+
+# Let user evaluate output after certain number of epoch
+if i == 200:
+    print("\n--- Output at 200 epochs ---")
+    print(np.round(output, 2))
+    outputeval = input("Do you like the output? (yes/no): ").lower()
+    if outputeval == "yes":
+        print("Stopping early since you liked the output.")
+        break
+if i == 400:
+    print("-- Output at 400 epochs ---")
+    print(np.round(output, 2))
+    outputeval = input("Do you like the output? (yes/no): ").lower()
+    if outputeval == "yes":
+        print("Stopping early since you liked the output.")
+elif i == 600:
+    print("--- Output at 600 epochs ---")
+    print(np.round(output, 2))
+    outputeval = input("Do you like the output? (yes/no): ").lower()
+    if outputeval == "yes":
+        print("Stopping early since you liked the output.")
+elif i == 800:
+    print("--- Output at 800 epochs ---")
+    print(np.round(output, 2))
+    outputeval = input("Do you like the output? (yes/no): ").lower()
+    if outputeval == "yes":
+        print("Stopping early since you liked the output.")
